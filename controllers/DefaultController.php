@@ -4,6 +4,10 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		$this->render('index');
+		die('default:index');
+	}
+
+	public function actionCompose() {
+		die('default:compose');
 	}
 }
