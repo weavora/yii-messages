@@ -17,7 +17,7 @@
 				<td>
 					<?php echo CHtml::checkBox("Message[$index][selected]"); ?>
 					<?php echo $form->hiddenField($message,"[$index]id"); ?>
-					<?php echo $message->sender_id ?>
+					<?php echo $message->getSenderName(); ?>
 				</td>
 				<td><a href="<?php echo $this->createUrl('view/', array('message_id' => $message->id)) ?>"><?php echo $message->subject ?></a></td>
 			</tr>

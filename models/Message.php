@@ -74,8 +74,11 @@ class Message extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 
+		$module = Yii::app()->getModule('message');
+
 		return array(
-//			'receiver' => array(CActiverRecord::BELONGS_TO),
+			'receiver' => $module->receiverRelation ? $module->receiverRelation : array(CActiveRecord::BELONGS_TO, $module->userModel, 'receiver_id'),
+			'sender' => $module->senderRelation ? $module->senderRelation : array(CActiveRecord::BELONGS_TO, $module->userModel, 'sender_id'),
 		);
 	}
 
@@ -132,6 +135,14 @@ class Message extends CActiveRecord
 		));
 	}
 
+	public function getSenderName() {
+		return call_user_func(array($this->sender, Yii::app()->getModule('message')->getNameMethod));
+	}
+
+	public function getReceiverName() {
+		return call_user_func(array($this->receiver, Yii::app()->getModule('message')->getNameMethod));
+	}
+
 	public static function getAdapterForInbox($userId) {
 		$c = new CDbCriteria();
 		$c->addCondition('t.receiver_id = :receiverId');
@@ -162,6 +173,11 @@ class Message extends CActiveRecord
 
 		if (!$userId) {
 			return false;
+		}
+
+		if ($this->sender_id == $this->receiver_id && $this->receiver_id == $userId) {
+			$this->delete();
+			return true;
 		}
 
 		if ($this->sender_id == $userId) {
