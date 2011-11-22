@@ -9,7 +9,8 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'receiver_id'); ?>
-		<?php echo $form->textField($model,'receiver_id'); ?>
+		<?php echo CHtml::textField('receiver') ?>
+		<?php echo $form->hiddenField($model,'receiver_id'); ?>
 		<?php echo $form->error($model,'receiver_id'); ?>
 	</div>
 
@@ -39,12 +40,12 @@
 	$cs = Yii::app()->getClientScript();
 	$cs->registerCoreScript('jquery');
 	$cs->registerCssFile($baseUrl.'/css/redmond/jquery-ui-1.8.16.custom.css');
+	$cs->registerCssFile($baseUrl.'/css/styles.css');
 	$cs->registerScriptFile($baseUrl.'/js/jquery-ui-1.8.16.custom.min.js');
 ?>
-
 <script type="text/javascript">
 	$(document).ready(function() {
-		$( "#Message_receiver_id" ).autocomplete({
+		$( "#receiver" ).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
 					url: "<?php echo $this->createUrl('suggest/user') ?>",
@@ -55,6 +56,7 @@
 						maxRows: 12,
 						name_startsWith: request.term
 					},
+
 					success: function(data) {
 						response($.map(data.users, function(user) {
 							return {
@@ -66,8 +68,14 @@
 				});
 			},
 			minLength: 2,
+			focus: function(event, ui) {
+				$('#receiver').val(ui.item.label);
+				return false;
+			},
 			select: function(event, ui) {
-				console.log(ui);
+				$('#receiver').val(ui.item.label);
+				$('#Message_receiver_id').val(ui.item.value);
+				return false;
 			},
 			open: function() {
 				$(this).removeClass("ui-corner-all").addClass("ui-corner-top");

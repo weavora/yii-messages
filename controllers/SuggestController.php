@@ -3,6 +3,7 @@
 class SuggestController extends Controller {
 
 	public function actionUser() {
+		$q = Yii::app()->request->getParam('name_startsWith');
 		$users = User::model()->findAll();
 		$json = CJSON::encode(array('users' => $users));
 
@@ -17,5 +18,4 @@ class SuggestController extends Controller {
 		echo $json;
 		Yii::app()->end();
 	}
-
 }
