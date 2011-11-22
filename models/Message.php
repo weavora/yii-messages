@@ -158,4 +158,35 @@ class Message extends CActiveRecord
 		return $messagesProvider;
 	}
 
+	public function deleteByUser($userId) {
+
+		if (!$userId) {
+			return false;
+		}
+
+		if ($this->sender_id == $userId) {
+			if ($this->deleted_by == self::DELETED_BY_RECEIVER) {
+				$this->delete();
+			} else {
+				$this->deleted_by = self::DELETED_BY_SENDER;
+				$this->save();
+			}
+
+			return true;
+		}
+
+		if ($this->receiver_id == $userId) {
+			if ($this->deleted_by == self::DELETED_BY_SENDER) {
+				$this->delete();
+			} else {
+				$this->deleted_by = self::DELETED_BY_RECEIVER;
+				$this->save();
+			}
+
+			return true;
+		}
+
+		// message was not deleted
+		return false;
+	}
 }
