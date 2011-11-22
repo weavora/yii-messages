@@ -10,7 +10,7 @@ class DeleteController extends Controller {
 		foreach ($messagesData as $messageData) {
 		    if (isset($messageData['selected'])) {
 				$message = Message::model()->findByPk($messageData['id']);
-				if ($message->deleteByUser(Yii::app()->user->getPk())) {
+				if ($message->deleteByUser(Yii::app()->user->getId())) {
 				    $counter++;
 				}
 		    }
