@@ -13,25 +13,18 @@ class MessageModule extends CWebModule
 
 	public function init()
 	{
-
-		if (!$this->getNameMethod) {
-			throw new Exception(MessageModule::t("Property MessageModule::getNameMethod not defined"));
-		}
-
-		if (!$this->getSuggestMethod) {
-		    throw new Exception(MessageModule::t("Property MessageModule::getSuggest not defined"));
-		}
-
 		if (!class_exists($this->userModel)) {
 		    throw new Exception(MessageModule::t("Class {userModel} not defined", array('{userModel}' => $this->userModel)));
 		}
 
-		if (!method_exists($this->userModel, $this->getNameMethod)) {
-		    throw new Exception(MessageModule::t("Method {userModel}::{getNameMethod} not defined", array('{userModel}' => $this->userModel, '{getNameMethod}' => $this->getNameMethod)));
-		}
+		foreach (array('getNameMethod', 'getSuggestMethod') as $methodName) {
+			if (!$this->$methodName) {
+				throw new Exception(MessageModule::t("Property MessageModule::{methodName} not defined", array('{methodName}' => $methodName)));
+			}
 
-		if (!is_callable(array($this->userModel, $this->getNameMethod), true)) {
-		    throw new Exception(MessageModule::t("Method {userModel}::{getNameMethod} can not defined", array('{userModel}' => $this->userModel, '{getNameMethod}' => $this->getNameMethod)));
+			if (!method_exists($this->userModel, $this->$methodName)) {
+				throw new Exception(MessageModule::t("Method {userModel}::{methodName} not defined", array('{userModel}' => $this->userModel, '{methodName}' => $this->$methodName)));
+			}
 		}
 
 		// this method is called when the module is being created
