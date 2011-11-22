@@ -60,7 +60,7 @@
 					success: function(data) {
 						response($.map(data.users, function(user) {
 							return {
-								label: user.email,
+								label: user.name,
 								value: user.id
 							}
 						}));
