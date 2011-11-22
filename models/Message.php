@@ -136,6 +136,7 @@ class Message extends CActiveRecord
 		$c = new CDbCriteria();
 		$c->addCondition('t.receiver_id = :receiverId');
 		$c->addCondition('t.deleted_by <> :deleted_by_receiver OR t.deleted_by IS NULL');
+		$c->order = 't.created_at DESC';
 		$c->params = array(
 			'receiverId' => $userId,
 			'deleted_by_receiver' => Message::DELETED_BY_RECEIVER,
@@ -148,6 +149,7 @@ class Message extends CActiveRecord
 		$c = new CDbCriteria();
 		$c->addCondition('t.sender_id = :senderId');
 		$c->addCondition('t.deleted_by <> :deleted_by_sender OR t.deleted_by IS NULL');
+		$c->order = 't.created_at DESC';
 		$c->params = array(
 			'senderId' => $userId,
 			'deleted_by_sender' => Message::DELETED_BY_SENDER,
