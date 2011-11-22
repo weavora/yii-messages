@@ -9,7 +9,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'receiver_id'); ?>
-		<?php echo CHtml::textField('receiver') ?>
+		<?php echo CHtml::textField('receiver', $receiverName) ?>
 		<?php echo $form->hiddenField($model,'receiver_id'); ?>
 		<?php echo $form->error($model,'receiver_id'); ?>
 	</div>
@@ -68,6 +68,7 @@
 				});
 			},
 			minLength: 2,
+			mustMatch: true,
 			focus: function(event, ui) {
 				$('#receiver').val(ui.item.label);
 				return false;
