@@ -4,7 +4,7 @@ class SuggestController extends Controller {
 
 	public function actionUser() {
 		$q = Yii::app()->request->getParam('name_startsWith');
-		$users = User::model()->findAll();
+		$users = call_user_func(array(User::model(), Yii::app()->getModule('message')->getSuggestMethod), $q);
 		$json = CJSON::encode(array('users' => $users));
 
 		if (Yii::app()->request->getParam('callback')) {
