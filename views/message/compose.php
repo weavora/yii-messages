@@ -32,3 +32,50 @@
 	<?php $this->endWidget(); ?>
 
 </div>
+
+<?php
+	$basePath=Yii::getPathOfAlias('application.modules.message.views.asset');
+	$baseUrl=Yii::app()->getAssetManager()->publish($basePath);
+	$cs = Yii::app()->getClientScript();
+	$cs->registerCoreScript('jquery');
+	$cs->registerCssFile($baseUrl.'/css/redmond/jquery-ui-1.8.16.custom.css');
+	$cs->registerScriptFile($baseUrl.'/js/jquery-ui-1.8.16.custom.min.js');
+?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$( "#Message_receiver_id" ).autocomplete({
+			source: function( request, response ) {
+				$.ajax({
+					url: "<?php echo $this->createUrl('suggest/user') ?>",
+					dataType: "jsonp",
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data.users, function(user) {
+							return {
+								label: user.email,
+								value: user.id
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			select: function(event, ui) {
+				console.log(ui);
+			},
+			open: function() {
+				$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+			},
+			close: function() {
+				$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+			}
+		});
+	});
+</script>
+

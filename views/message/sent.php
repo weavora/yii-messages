@@ -2,13 +2,13 @@
 <?php if ($messagesAdapter->data): ?>
 	<table>
 		<tr>
-			<th>From</th>
+			<th>To</th>
 			<th>Subject</th>
 		</tr>
 		<?php foreach ($messagesAdapter->data as $message): ?>
 			<tr>
-				<td><?php echo $message->sender_id ?></td>
-				<td><a href="<?php echo $this->createUrl('view/', array('message_id' => $message->id)) ?>"><?php echo $message->subject ?></a></td>
+				<td><?php echo $message->receiver_id ?></td>
+				<td><?php echo $message->subject ?></td>
 			</tr>
 		<?php endforeach ?>
 	</table>

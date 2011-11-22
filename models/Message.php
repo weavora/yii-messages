@@ -17,6 +17,17 @@ class Message extends CActiveRecord
 {
 	const DELETED_BY_RECEIVER = 'receiver';
 	const DELETED_BY_SENDER = 'sender';
+
+	public $userModel;
+	public $userModelRelation;
+
+	public function __construct($scenario = 'insert') {
+		$this->userModel = Yii::app()->getModule('message')->userModel;
+		$this->userModelRelation = Yii::app()->getModule('message')->userModelRelation;
+		return parent::__construct($scenario);
+	}
+
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Message the static model class
@@ -121,13 +132,25 @@ class Message extends CActiveRecord
 		));
 	}
 
-	public static function getAdapterForReceiver($userId) {
+	public static function getAdapterForInbox($userId) {
 		$c = new CDbCriteria();
 		$c->addCondition('t.receiver_id = :receiverId');
 		$c->addCondition('t.deleted_by <> :deleted_by_receiver OR t.deleted_by IS NULL');
 		$c->params = array(
 			'receiverId' => $userId,
 			'deleted_by_receiver' => Message::DELETED_BY_RECEIVER,
+		);
+		$messagesProvider = new CActiveDataProvider('Message', array('criteria' => $c));
+		return $messagesProvider;
+	}
+
+	public static function getAdapterForSent($userId) {
+		$c = new CDbCriteria();
+		$c->addCondition('t.sender_id = :senderId');
+		$c->addCondition('t.deleted_by <> :deleted_by_sender OR t.deleted_by IS NULL');
+		$c->params = array(
+			'senderId' => $userId,
+			'deleted_by_sender' => Message::DELETED_BY_SENDER,
 		);
 		$messagesProvider = new CActiveDataProvider('Message', array('criteria' => $c));
 		return $messagesProvider;
