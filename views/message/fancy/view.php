@@ -10,61 +10,75 @@
 ?>
 
 <?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_styles') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_flash') ?>
+
+<div class="row">
+
 <?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
+	<div class="span13">
+		<?php $form = $this->beginWidget('CActiveForm', array(
+			'id'=>'message-delete-form',
+			'enableAjaxValidation'=>false,
+			'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
+		)); ?>
+		<button class="btn primary"><?php echo MessageModule::t("Delete Selected") ?></button>
+		<?php $this->endWidget(); ?>
 
-<?php if ($isIncomeMessage): ?>
-	<h2 class="message-from">From: <?php echo $viewedMessage->getSenderName() ?></h2>
-<?php else: ?>
-	<h2 class="message-to">To: <?php echo $viewedMessage->getReceiverName() ?></h2>
-<?php endif; ?>
+		<table class="bordered-table zebra-striped">
+			<tr>
+				<th>
+					<?php if ($isIncomeMessage): ?>
+						From: <?php echo $viewedMessage->getSenderName() ?>
+					<?php else: ?>
+						To: <?php echo $viewedMessage->getReceiverName() ?>
+					<?php endif; ?>
+				</th>
+				<th>
+					<?php echo CHtml::encode($viewedMessage->subject) ?>
+				</th>
+				<th>
+					<?php echo date(Yii::app()->getModule('message')->dateFormat, strtotime($viewedMessage->created_at)) ?>
+				</th>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<?php echo CHtml::encode($viewedMessage->body) ?>
+				</td>
+			</tr>
+		</table>
 
-<h3 class="message-subject"><?php echo CHtml::encode($viewedMessage->subject) ?></h3>
+		<h2><?php echo MessageModule::t('Reply') ?></h2>
 
-<span class="date"><?php echo date(Yii::app()->getModule('message')->dateFormat, strtotime($viewedMessage->created_at)) ?></span>
+		<div class="form">
+			<?php $form = $this->beginWidget('CActiveForm', array(
+				'id'=>'message-form',
+				'enableAjaxValidation'=>false,
+			)); ?>
 
-<div class="message-body">
-	<?php echo CHtml::encode($viewedMessage->body) ?>
-</div>
+			<?php echo $form->errorSummary($message, null, null, array('class' => 'alert-message block-message error')); ?>
 
+			<div class="input">
+				<?php echo $form->hiddenField($message,'receiver_id'); ?>
+				<?php echo $form->error($message,'receiver_id'); ?>
+			</div>
+			<?php echo $form->labelEx($message,'subject'); ?>
+			<div class="input">
 
-<?php $form = $this->beginWidget('CActiveForm', array(
-	'id'=>'message-delete-form',
-	'enableAjaxValidation'=>false,
-	'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
-)); ?>
-<?php echo CHtml::submitButton(MessageModule::t("Delete Selected")); ?>
-<?php $this->endWidget(); ?>
+				<?php echo $form->textField($message,'subject'); ?>
+				<?php echo $form->error($message,'subject'); ?>
+			</div>
 
-<h2><?php echo MessageModule::t('Reply') ?></h2>
+			<?php echo $form->labelEx($message,'body'); ?>
+			<div class="input">
+				<?php echo $form->textArea($message,'body'); ?>
+				<?php echo $form->error($message,'body'); ?>
+			</div>
 
-<div class="form">
-	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id'=>'message-form',
-		'enableAjaxValidation'=>false,
-	)); ?>
+			<div class="buttons">
+				<button class="btn primary"><?php echo MessageModule::t("Reply") ?></button>
+			</div>
 
-	<?php echo $form->errorSummary($message); ?>
-
-	<div class="row">
-		<?php echo $form->hiddenField($message,'receiver_id'); ?>
-		<?php echo $form->error($message,'receiver_id'); ?>
+			<?php $this->endWidget(); ?>
+		</div>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($message,'subject'); ?>
-		<?php echo $form->textField($message,'subject'); ?>
-		<?php echo $form->error($message,'subject'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($message,'body'); ?>
-		<?php echo $form->textArea($message,'body'); ?>
-		<?php echo $form->error($message,'body'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton(MessageModule::t("Reply")); ?>
-	</div>
-
-	<?php $this->endWidget(); ?>
 </div>
