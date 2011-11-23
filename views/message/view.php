@@ -6,13 +6,20 @@
 	);
 ?>
 
+<?php $isIncomeMessage = $viewedMessage->receiver_id == Yii::app()->user->getId() ?>
+
 <?php $this->renderPartial('/message/_navigation') ?>
 
 <h2><?php echo MessageModule::t('Message {From/To} {Subject} {Date} TBD'); ?></h2>
 
-<h3><?php echo $viewedMessage->getSenderName() ?></h3>
-<h4><?php echo CHtml::encode($viewedMessage->subject) ?></h4>
-<div>
+<?php if ($isIncomeMessage): ?>
+	<h3 class="message-from"><?php echo $viewedMessage->getSenderName() ?></h3>
+<?php else: ?>
+	<h3 class="message-to"><?php echo $viewedMessage->getReceiverName() ?></h3>
+<?php endif; ?>
+
+<h4 class="message-subject"><?php echo CHtml::encode($viewedMessage->subject) ?></h4>
+<div class="message-body">
 	<?php echo CHtml::encode($viewedMessage->body) ?>
 </div>
 
@@ -42,9 +49,8 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton(MessageModule::t("Send")); ?>
+		<?php echo CHtml::submitButton(MessageModule::t($isIncomeMessage ? "Reply" : "Send Another One")); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>
-
 </div>
