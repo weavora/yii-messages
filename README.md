@@ -10,7 +10,7 @@ Features include:
 - custom themes support
 - simple integration
 
-Requirements 
+Requirements
 ------------
 
 This has been tested with 1.1.8, but should work with any version.
@@ -21,7 +21,7 @@ MessageModule (об этом ниже).
 Если вы хотите использовать в модуле default layout, удостоверьтесь что он
 задан через double slash("//")
 
-    // class Controller    
+    // class Controller
     public $layout='//layouts/column1';
 
 
@@ -32,7 +32,7 @@ Configuration
 
 Настройки секции modules для конфига:
 
-    return array(       
+    return array(
        'modules' => array(
          'message' => array(
             'userModel' => 'User',
@@ -50,8 +50,8 @@ Configuration
 `MessageModule::senderRelation and MessageModule::receiverRelation`.
 
     'receiverRelation' => array(
-        CActiveRecord::BELONGS_TO, 'MyUserModel', 
-        '', 
+        CActiveRecord::BELONGS_TO, 'MyUserModel',
+        '',
         'on' => 'MyUserModel.my_custom_id = receiver_id'
     )
 
@@ -59,11 +59,20 @@ Configuration
 будет подключить библиотеки jQuery and jQuery UI(with styles), их можно найти
 в папке модуля.
 
+Insert items into zii.widgets.CMenu array (protected/views/layouts/main.php)
+
+	array('url' => Yii::app()->getModule('message')->inboxUrl,
+		'label' => 'Messages' . (Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) ?
+			' (' . Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) . ')' : ''),
+		'visible' => !Yii::app()->user->isGuest),
+
+
+
 Examples
 --------
 
     // config
-    return array(       
+    return array(
        'modules' => array(
          'message' => array(
             'userModel' => 'User',
@@ -71,15 +80,15 @@ Examples
             'getSuggestMethod' => 'getSuggest',
          ),
        ),
-    );    
-    
-    
+    );
+
+
     // class User
-    
+
     public function getFullName() {
         return $this->username;
     }
-    
+
     public function getSuggest($q) {
 		$c = new CDbCriteria();
 		$c->addSearchCondition('username', $q, true, 'OR');
@@ -91,19 +100,19 @@ Custom Views
 ------------
 Если вас не устраивают стандартные views, вы легко можете заменить их на свои,
 указав путь к папке с ними через `MessageModule::viewPath`.
-    
-    //config 
-    return array(       
+
+    //config
+    return array(
        'modules' => array(
          'message' => array(
-            ...            
+            ...
             // for app/protected/views/messagesModuleCustom
-            'viewPath' => '//messagesModuleCustom', 
+            'viewPath' => '//messagesModuleCustom',
          ),
        ),
     );
-    
-    // app/protected/views/messagesModuleCustom directory listing    
+
+    // app/protected/views/messagesModuleCustom directory listing
     ..
     compose.php
     inbox.php
@@ -117,5 +126,5 @@ Direct messages
 получателя в конце url
 
     http://example.com/message/compose/1
-    
+
 В этом случае имя поучателя подставится в форму автоматически.

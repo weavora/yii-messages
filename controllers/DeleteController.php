@@ -8,11 +8,13 @@ class DeleteController extends Controller {
 		if (!$id) {
 			$messagesData = Yii::app()->request->getParam('Message');
 			$counter = 0;
-			foreach ($messagesData as $messageData) {
-				if (isset($messageData['selected'])) {
-					$message = Message::model()->findByPk($messageData['id']);
-					if ($message->deleteByUser(Yii::app()->user->getId())) {
-						$counter++;
+			if ($messagesData) {
+				foreach ($messagesData as $messageData) {
+					if (isset($messageData['selected'])) {
+						$message = Message::model()->findByPk($messageData['id']);
+						if ($message->deleteByUser(Yii::app()->user->getId())) {
+							$counter++;
+						}
 					}
 				}
 			}
