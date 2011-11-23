@@ -21,6 +21,8 @@ class Message extends CActiveRecord
 	public $userModel;
 	public $userModelRelation;
 
+	public $unreadMessagesCount;
+
 	public function __construct($scenario = 'insert') {
 		$this->userModel = Yii::app()->getModule('message')->userModel;
 		$this->userModelRelation = Yii::app()->getModule('message')->userModelRelation;
@@ -211,5 +213,22 @@ class Message extends CActiveRecord
 			$this->is_read = true;
 			$this->save();
 		}
+	}
+
+	public function getCountUnreaded($userId) {
+		if (!$this->unreadMessagesCount) {
+			$c = new CDbCriteria();
+			$c->addCondition('t.receiver_id = :receiverId');
+			$c->addCondition('t.deleted_by <> :deleted_by_receiver OR t.deleted_by IS NULL');
+			$c->addCondition('t.is_read = "0"');
+			$c->params = array(
+				'receiverId' => $userId,
+				'deleted_by_receiver' => Message::DELETED_BY_RECEIVER,
+			);
+			$count = self::model()->count($c);
+			$this->unreadMessagesCount = $count;
+		}
+
+		return $this->unreadMessagesCount;
 	}
 }
