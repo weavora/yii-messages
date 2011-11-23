@@ -1,5 +1,6 @@
 Messages
 ========
+
 The Messages module for the Yii framework allows you use private messages in
 your application.
 
@@ -27,6 +28,10 @@ MessageModule (об этом ниже).
 Configuration
 -------------
 
+Создайте необходимые таблицы, использую SQL из файла data/message.sql
+
+Настройки секции modules для конфига:
+
     return array(       
        'modules' => array(
          'message' => array(
@@ -39,7 +44,7 @@ Configuration
 
 
 Для использования модуля необходимо указать модель пользователя используемую в
-вашем приложении `MessageModule::userModel`.
+приложении `MessageModule::userModel`.
 
 Если необходимо, укажите relations для sender и receiver
 `MessageModule::senderRelation and MessageModule::receiverRelation`.
