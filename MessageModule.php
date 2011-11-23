@@ -11,6 +11,8 @@ class MessageModule extends CWebModule
 	public $senderRelation;
 	public $receiverRelation;
 
+	public $inboxUrl = array("/message/inbox");
+
 	public function init()
 	{
 		if (!class_exists($this->userModel)) {
