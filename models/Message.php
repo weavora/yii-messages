@@ -205,4 +205,11 @@ class Message extends CActiveRecord
 		// message was not deleted
 		return false;
 	}
+
+	public function markAsRead() {
+		if (!$this->is_read) {
+			$this->is_read = true;
+			$this->save();
+		}
+	}
 }
