@@ -138,11 +138,15 @@ class Message extends CActiveRecord
 	}
 
 	public function getSenderName() {
-		return call_user_func(array($this->sender, Yii::app()->getModule('message')->getNameMethod));
+		if ($this->sender) {
+		    return call_user_func(array($this->sender, Yii::app()->getModule('message')->getNameMethod));
+		}
 	}
 
 	public function getReceiverName() {
-		return call_user_func(array($this->receiver, Yii::app()->getModule('message')->getNameMethod));
+		if ($this->receiver) {
+		    return call_user_func(array($this->receiver, Yii::app()->getModule('message')->getNameMethod));
+		}
 	}
 
 	public static function getAdapterForInbox($userId) {
