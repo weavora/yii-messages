@@ -17,9 +17,7 @@ class ViewController extends Controller {
 
 		$isIncomeMessage = $viewedMessage->receiver_id == $userId;
 		if ($isIncomeMessage) {
-		    if (strpos($viewedMessage->subject, 'Re:') !== 0) {
-			    $message->subject = 'Re:' . $viewedMessage->subject;
-			}
+		    $message->subject = preg_match('/^Re:/',$viewedMessage->subject) ? $viewedMessage->subject : 'Re: ' . $viewedMessage->subject;
 			$message->receiver_id = $viewedMessage->sender_id;
 		} else {
 			$message->sender_id = $viewedMessage->receiver_id;
