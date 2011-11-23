@@ -111,6 +111,6 @@ Direct messages
 размешенной на странице его профайла). Для этого необходимо указать id
 получателя в конце url
 
-    http://example.com/messages/compose/1
+    http://example.com/message/compose/1
     
 В этом случае имя поучателя подставится в форму автоматически.
