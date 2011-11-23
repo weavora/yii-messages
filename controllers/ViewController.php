@@ -15,7 +15,9 @@ class ViewController extends Controller {
 		$message = new Message();
 
 		if ($viewedMessage->receiver_id == Yii::app()->user->getId()) {
-		    $message->subject = 'Re:' . $viewedMessage->subject;
+			if (strpos($viewedMessage->subject, 'Re:') !== 0) {
+			    $message->subject = 'Re:' . $viewedMessage->subject;
+			}
 			$message->receiver_id = $viewedMessage->sender_id;
 		} else {
 			$message->sender_id = $viewedMessage->receiver_id;
