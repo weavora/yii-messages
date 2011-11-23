@@ -26,6 +26,15 @@
 	<?php echo CHtml::encode($viewedMessage->body) ?>
 </div>
 
+
+<?php $form = $this->beginWidget('CActiveForm', array(
+	'id'=>'message-delete-form',
+	'enableAjaxValidation'=>false,
+	'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
+)); ?>
+<?php echo CHtml::submitButton(MessageModule::t("Delete Selected")); ?>
+<?php $this->endWidget(); ?>
+
 <h2><?php echo MessageModule::t('Reply') ?></h2>
 
 <div class="form">
