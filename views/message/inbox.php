@@ -1,23 +1,26 @@
+<?php $this->pageTitle=Yii::app()->name . ' - '.MessageModule::t("Messages:inbox"); ?>
 <?php
 	$this->breadcrumbs=array(
 		MessageModule::t("Messages"),
 		MessageModule::t("Inbox"),
 	);
-
 ?>
-<?php $this->renderPartial('/message/_navigation') ?>
-<?php if ($messagesAdapter->data): ?>
 
+<?php $this->renderPartial('/message/_navigation') ?>
+
+<h2><?php echo MessageModule::t('Inbox'); ?></h2>
+
+<?php if ($messagesAdapter->data): ?>
 	<?php $form = $this->beginWidget('CActiveForm', array(
 		'id'=>'message-delete-form',
 		'enableAjaxValidation'=>false,
 		'action' => $this->createUrl('delete/')
 	)); ?>
 
-	<table>
+	<table class="dataGrid">
 		<tr>
-			<th>From</th>
-			<th>Subject</th>
+			<th  class="label">From</th>
+			<th  class="label">Subject</th>
 		</tr>
 		<?php foreach ($messagesAdapter->data as $index => $message): ?>
 			<tr>
@@ -31,11 +34,10 @@
 		<?php endforeach ?>
 	</table>
 
-	<div class="row submit">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton(MessageModule::t("Delete Selected")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
-
 	<?php $this->widget('CLinkPager', array('pages' => $messagesAdapter->getPagination())) ?>
 <?php endif; ?>

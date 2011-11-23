@@ -1,12 +1,15 @@
 <?php $this->pageTitle=Yii::app()->name . ' - '.MessageModule::t("Compose Message"); ?>
-<?php $this->renderPartial('/message/_navigation'); ?>
 <?php
 	$this->breadcrumbs=array(
 		MessageModule::t("Messages"),
 		MessageModule::t("Compose"),
 	);
 ?>
+
+<?php $this->renderPartial('/message/_navigation'); ?>
+
 <h2><?php echo MessageModule::t('Compose New Message'); ?></h2>
+
 <div class="form">
 	<?php $form = $this->beginWidget('CActiveForm', array(
 		'id'=>'message-form',

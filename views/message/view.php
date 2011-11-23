@@ -1,5 +1,16 @@
+<?php $this->pageTitle=Yii::app()->name . ' - '.MessageModule::t("Compose Message"); ?>
+<?php
+	$this->breadcrumbs=array(
+		MessageModule::t("Messages"),
+		MessageModule::t("Message {From/To} {Subject}"),
+	);
+?>
+
 <?php $this->renderPartial('/message/_navigation') ?>
-<h4><?php echo $viewedMessage->getSenderName() ?></h4>
+
+<h2><?php echo MessageModule::t('Message {From/To} {Subject} {Date} TBD'); ?></h2>
+
+<h3><?php echo $viewedMessage->getSenderName() ?></h3>
 <h4><?php echo CHtml::encode($viewedMessage->subject) ?></h4>
 <div>
 	<?php echo CHtml::encode($viewedMessage->body) ?>
@@ -30,7 +41,7 @@
 		<?php echo $form->error($message,'body'); ?>
 	</div>
 
-	<div class="row submit">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton(MessageModule::t("Send")); ?>
 	</div>
 
