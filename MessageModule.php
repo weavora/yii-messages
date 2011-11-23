@@ -2,6 +2,7 @@
 
 class MessageModule extends CWebModule
 {
+	public $defaultController = 'inbox';
 
 	public $userModel = 'User';
 	public $userModelRelation = null;
