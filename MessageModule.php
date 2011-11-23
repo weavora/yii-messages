@@ -15,6 +15,8 @@ class MessageModule extends CWebModule
 
 	public $inboxUrl = array("/message/inbox");
 
+	public $viewPath = '/message/default';
+
 	public function init()
 	{
 		if (!class_exists($this->userModel)) {

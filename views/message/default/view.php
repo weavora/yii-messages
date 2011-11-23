@@ -9,7 +9,7 @@
 	);
 ?>
 
-<?php $this->renderPartial('/message/_navigation') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
 
 <?php if ($isIncomeMessage): ?>
 	<h2 class="message-from">From: <?php echo $viewedMessage->getSenderName() ?></h2>
@@ -24,15 +24,6 @@
 <div class="message-body">
 	<?php echo CHtml::encode($viewedMessage->body) ?>
 </div>
-
-
-<?php $form = $this->beginWidget('CActiveForm', array(
-	'id'=>'message-delete-form',
-	'enableAjaxValidation'=>false,
-	'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
-)); ?>
-<?php echo CHtml::submitButton(MessageModule::t("Delete Selected")); ?>
-<?php $this->endWidget(); ?>
 
 <h2><?php echo MessageModule::t('Reply') ?></h2>
 
