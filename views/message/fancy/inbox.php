@@ -24,6 +24,7 @@
 				<tr>
 					<th class="from-to">From</th>
 					<th>Subject</th>
+					<th>Date</th>
 				</tr>
 				<?php foreach ($messagesAdapter->data as $index => $message): ?>
 					<tr class="<?php echo $message->is_read ? 'read' : 'unread' ?>">
@@ -33,6 +34,7 @@
 							<?php echo $message->getSenderName(); ?>
 						</td>
 						<td><a href="<?php echo $this->createUrl('view/', array('message_id' => $message->id)) ?>"><?php echo $message->subject ?></a></td>
+						<td><span class="date"><?php echo date(Yii::app()->getModule('message')->dateFormat, strtotime($message->created_at)) ?></span></td>
 					</tr>
 				<?php endforeach ?>
 			</table>

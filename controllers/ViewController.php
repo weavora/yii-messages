@@ -28,7 +28,7 @@ class ViewController extends Controller {
 		    $message->subject = preg_match('/^Re:/',$viewedMessage->subject) ? $viewedMessage->subject : 'Re: ' . $viewedMessage->subject;
 			$message->receiver_id = $viewedMessage->sender_id;
 		} else {
-			$message->sender_id = $viewedMessage->receiver_id;
+			$message->receiver_id = $viewedMessage->receiver_id;
 		}
 
 		if (Yii::app()->request->getPost('Message')) {
