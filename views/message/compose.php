@@ -1,10 +1,9 @@
 <?php $this->pageTitle=Yii::app()->name . ' - '.MessageModule::t("Compose Message"); ?>
-
 <?php $this->renderPartial('/message/_navigation'); ?>
 <?php
 	$this->breadcrumbs=array(
-		MessageModule::t("Messages")=>array('message'),
-		MessageModule::t("Compose New"),
+		MessageModule::t("Messages"),
+		MessageModule::t("Compose"),
 	);
 ?>
 <h2><?php echo MessageModule::t('Compose New Message'); ?></h2>

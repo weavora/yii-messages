@@ -12,7 +12,7 @@ class NewController extends Controller
 		    $message->attributes = Yii::app()->request->getPost('Message');
 			$message->sender_id = Yii::app()->user->getId();
 			if ($message->save()) {
-				Yii::app()->user->setFlash('success', MessageModule::t('Message has been sent'));
+				Yii::app()->user->setFlash('messageModule', MessageModule::t('Message has been sent'));
 			    $this->redirect($this->createUrl('inbox/'));
 			} else if ($message->hasErrors('receiver_id')) {
 				$message->receiver_id = null;

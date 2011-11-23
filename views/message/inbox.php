@@ -1,3 +1,10 @@
+<?php
+	$this->breadcrumbs=array(
+		MessageModule::t("Messages"),
+		MessageModule::t("Inbox"),
+	);
+
+?>
 <?php $this->renderPartial('/message/_navigation') ?>
 <?php if ($messagesAdapter->data): ?>
 

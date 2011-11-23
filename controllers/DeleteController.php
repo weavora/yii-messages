@@ -16,7 +16,7 @@ class DeleteController extends Controller {
 		    }
 		}
 		if ($counter) {
-		    Yii::app()->user->setFlash('success', MessageModule::t('{count} message'.($counter > 1 ? 's' : '').' has been deleted', array('{count}' => $counter)));
+		    Yii::app()->user->setFlash('messageModule', MessageModule::t('{count} message'.($counter > 1 ? 's' : '').' has been deleted', array('{count}' => $counter)));
 		}
 		$this->redirect(Yii::app()->request->getUrlReferrer());
 	}
