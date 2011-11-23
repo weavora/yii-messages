@@ -7,6 +7,7 @@ class ViewController extends Controller {
 	public function actionView() {
 		$messageId = (int)Yii::app()->request->getParam('message_id');
 		$viewedMessage = Message::model()->findByPk($messageId);
+
 		$userId = Yii::app()->user->getId();
 
 		if ($viewedMessage->sender_id != $userId && $viewedMessage->receiver_id != $userId) {
@@ -14,8 +15,9 @@ class ViewController extends Controller {
 		}
 		$message = new Message();
 
-		if ($viewedMessage->receiver_id == Yii::app()->user->getId()) {
-			if (strpos($viewedMessage->subject, 'Re:') !== 0) {
+		$isIncomeMessage = $viewedMessage->receiver_id == $userId;
+		if ($isIncomeMessage) {
+		    if (strpos($viewedMessage->subject, 'Re:') !== 0) {
 			    $message->subject = 'Re:' . $viewedMessage->subject;
 			}
 			$message->receiver_id = $viewedMessage->sender_id;
@@ -25,15 +27,19 @@ class ViewController extends Controller {
 
 		if (Yii::app()->request->getPost('Message')) {
 			$message->attributes = Yii::app()->request->getPost('Message');
-			$message->sender_id = Yii::app()->user->getId();
+			$message->sender_id = $userId;
 			if ($message->save()) {
 				Yii::app()->user->setFlash('success', MessageModule::t('Message has been sent'));
-			    if ($viewedMessage->receiver_id == Yii::app()->user->getId()) {
+			    if ($isIncomeMessage) {
 					$this->redirect($this->createUrl('inbox/'));
 			    } else {
 					$this->redirect($this->createUrl('sent/'));
 				}
 			}
+		}
+
+		if ($isIncomeMessage) {
+			$viewedMessage->markAsRead();
 		}
 
 		$this->render('/message/view', array('viewedMessage' => $viewedMessage, 'message' => $message));
