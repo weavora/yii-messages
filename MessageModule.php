@@ -11,6 +11,8 @@ class MessageModule extends CWebModule
 	public $senderRelation;
 	public $receiverRelation;
 
+	public $dateFormat = 'Y-m-d H:i:s';
+
 	public $inboxUrl = array("/message/inbox");
 
 	public function init()
