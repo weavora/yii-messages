@@ -60,12 +60,12 @@ Configuration
 
 Insert items into zii.widgets.CMenu array (protected/views/layouts/main.php)
 
-	array('url' => Yii::app()->getModule('message')->inboxUrl,
-		'label' => 'Messages' . (Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) ?
-			' (' . Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) . ')' : ''),
+	array(
+		'url' => Yii::app()->getModule('message')->inboxUrl,
+		'label' => 'Messages' .
+				   (Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) ?
+						' (' . Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) . ')' : ''),
 		'visible' => !Yii::app()->user->isGuest),
-
-
 
 Examples
 --------
@@ -80,7 +80,6 @@ Examples
          ),
        ),
     );
-
 
     // class User
 
@@ -97,6 +96,7 @@ Examples
 
 Custom Views
 ------------
+
 Если вас не устраивают стандартные views, вы легко можете заменить их на свои,
 указав путь к папке с ними через `MessageModule::viewPath`.
 
@@ -120,6 +120,7 @@ Custom Views
 
 Direct messages
 ---------------
+
 Возможно определять получателя сообшения при помоши ссылки (например,
 размешенной на странице его профайла). Для этого необходимо указать id
 получателя в конце url
