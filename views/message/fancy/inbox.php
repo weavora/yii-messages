@@ -7,38 +7,42 @@
 ?>
 
 <?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_styles') ?>
-<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_flash') ?>
+<div class="row">
+	<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
+	<div class="span13">
+		<h2><?php echo MessageModule::t('Inbox'); ?></h2>
 
-<h2><?php echo MessageModule::t('Inbox'); ?></h2>
+		<?php if ($messagesAdapter->data): ?>
+			<?php $form = $this->beginWidget('CActiveForm', array(
+				'id'=>'message-delete-form',
+				'enableAjaxValidation'=>false,
+				'action' => $this->createUrl('delete/')
+			)); ?>
 
-<?php if ($messagesAdapter->data): ?>
-	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id'=>'message-delete-form',
-		'enableAjaxValidation'=>false,
-		'action' => $this->createUrl('delete/')
-	)); ?>
+			<table class="bordered-table zebra-striped">
+				<tr>
+					<th class="from-to">From</th>
+					<th>Subject</th>
+				</tr>
+				<?php foreach ($messagesAdapter->data as $index => $message): ?>
+					<tr class="<?php echo $message->is_read ? 'read' : 'unread' ?>">
+						<td>
+							<?php echo CHtml::checkBox("Message[$index][selected]"); ?>
+							<?php echo $form->hiddenField($message,"[$index]id"); ?>
+							<?php echo $message->getSenderName(); ?>
+						</td>
+						<td><a href="<?php echo $this->createUrl('view/', array('message_id' => $message->id)) ?>"><?php echo $message->subject ?></a></td>
+					</tr>
+				<?php endforeach ?>
+			</table>
 
-	<table class="dataGrid">
-		<tr>
-			<th  class="label">From</th>
-			<th  class="label">Subject</th>
-		</tr>
-		<?php foreach ($messagesAdapter->data as $index => $message): ?>
-			<tr class="<?php echo $message->is_read ? 'read' : 'unread' ?>">
-				<td>
-					<?php echo CHtml::checkBox("Message[$index][selected]"); ?>
-					<?php echo $form->hiddenField($message,"[$index]id"); ?>
-					<?php echo $message->getSenderName(); ?>
-				</td>
-				<td><a href="<?php echo $this->createUrl('view/', array('message_id' => $message->id)) ?>"><?php echo $message->subject ?></a></td>
-			</tr>
-		<?php endforeach ?>
-	</table>
+			<div>
+				<button class="btn danger"><?php echo MessageModule::t("Delete Selected") ?></button>
+			</div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton(MessageModule::t("Delete Selected")); ?>
+		<?php $this->endWidget(); ?>
+			<?php $this->widget('CLinkPager', array('pages' => $messagesAdapter->getPagination())) ?>
+		<?php endif; ?>
 	</div>
-
-<?php $this->endWidget(); ?>
-	<?php $this->widget('CLinkPager', array('pages' => $messagesAdapter->getPagination())) ?>
-<?php endif; ?>
+</div>
