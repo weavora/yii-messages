@@ -1,6 +1,6 @@
 <?php
 
-class NewController extends Controller
+class ComposeController extends Controller
 {
 
 	public $defaultAction = 'compose';
