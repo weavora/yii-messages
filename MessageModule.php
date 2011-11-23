@@ -15,7 +15,7 @@ class MessageModule extends CWebModule
 
 	public $inboxUrl = array("/message/inbox");
 
-	public $viewPath = '/message';
+	public $viewPath = '/message/fancy';
 
 	public function init()
 	{

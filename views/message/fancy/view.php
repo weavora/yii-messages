@@ -9,7 +9,8 @@
 	);
 ?>
 
-<?php $this->renderPartial('/message/_navigation') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_styles') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
 
 <?php if ($isIncomeMessage): ?>
 	<h2 class="message-from">From: <?php echo $viewedMessage->getSenderName() ?></h2>

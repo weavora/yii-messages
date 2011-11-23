@@ -6,7 +6,7 @@
 	);
 ?>
 
-<?php $this->renderPartial('/message/_navigation') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
 
 <h2><?php echo MessageModule::t('Sent'); ?></h2>
 

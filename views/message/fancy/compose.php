@@ -6,7 +6,8 @@
 	);
 ?>
 
-<?php $this->renderPartial('/message/_navigation'); ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_styles') ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation'); ?>
 
 <h2><?php echo MessageModule::t('Compose New Message'); ?></h2>
 
@@ -47,4 +48,4 @@
 
 </div>
 
-<?php $this->renderPartial('/message/_suggest'); ?>
+<?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_suggest'); ?>
