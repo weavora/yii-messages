@@ -8,6 +8,10 @@ class ViewController extends Controller {
 		$messageId = (int)Yii::app()->request->getParam('message_id');
 		$viewedMessage = Message::model()->findByPk($messageId);
 
+		if (!$viewedMessage) {
+			 throw new CHttpException(404, MessageModule::t('Message not found'));
+		}
+
 		$userId = Yii::app()->user->getId();
 
 		if ($viewedMessage->sender_id != $userId && $viewedMessage->receiver_id != $userId) {
