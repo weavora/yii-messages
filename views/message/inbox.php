@@ -23,7 +23,7 @@
 			<th  class="label">Subject</th>
 		</tr>
 		<?php foreach ($messagesAdapter->data as $index => $message): ?>
-			<tr>
+			<tr class="<?php echo $message->is_read ? 'read' : 'unread' ?>">
 				<td>
 					<?php echo CHtml::checkBox("Message[$index][selected]"); ?>
 					<?php echo $form->hiddenField($message,"[$index]id"); ?>
