@@ -19,9 +19,9 @@ This has been tested with 1.1.8, but should work with any version.
 MessageModule (об этом ниже).
 
 Если вы хотите использовать в модуле default layout, удостоверьтесь что он
-задан через double slash("//")
+задан через double slash("//"). Usually default layout is defined in basic controller class.
 
-    // class Controller    
+    // class Controller 
     public $layout='//layouts/column1';
 
 
