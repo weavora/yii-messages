@@ -10,7 +10,7 @@ class InboxController extends Controller
 		$pager->pageSize = 10;
 		$messagesAdapter->setPagination($pager);
 
-		$this->render('/message/inbox', array(
+		$this->render(Yii::app()->getModule('message')->viewPath . '/inbox', array(
 			'messagesAdapter' => $messagesAdapter
 		));
 	}

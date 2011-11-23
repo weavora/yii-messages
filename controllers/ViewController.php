@@ -40,7 +40,7 @@ class ViewController extends Controller {
 			$viewedMessage->markAsRead();
 		}
 
-		$this->render('/message/view', array('viewedMessage' => $viewedMessage, 'message' => $message));
+		$this->render(Yii::app()->getModule('message')->viewPath . '/view', array('viewedMessage' => $viewedMessage, 'message' => $message));
 	}
 
 }

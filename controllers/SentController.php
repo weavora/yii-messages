@@ -10,7 +10,7 @@ class SentController extends Controller
 		$pager->pageSize = 10;
 		$messagesAdapter->setPagination($pager);
 
-		$this->render('/message/sent', array(
+		$this->render(Yii::app()->getModule('message')->viewPath . '/sent', array(
 			'messagesAdapter' => $messagesAdapter
 		));
 	}

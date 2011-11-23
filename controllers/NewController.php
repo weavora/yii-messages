@@ -27,6 +27,6 @@ class NewController extends Controller
 				}
 			}
 		}
-		$this->render('/message/compose', array('model' => $message, 'receiverName' => isset($receiverName) ? $receiverName : null));
+		$this->render(Yii::app()->getModule('message')->viewPath . '/compose', array('model' => $message, 'receiverName' => isset($receiverName) ? $receiverName : null));
 	}
 }
