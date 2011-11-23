@@ -27,12 +27,12 @@ class DeleteController extends Controller {
 				throw new CHttpException(404, MessageModule::t('Message not found'));
 			}
 
-			$folder = $message->receiver_id == Yii::app()->user->getId() ? 'inbox' : 'sent';
+			$folder = $message->receiver_id == Yii::app()->user->getId() ? 'inbox/' : 'sent/';
 
 			if ($message->deleteByUser(Yii::app()->user->getId())) {
 				Yii::app()->user->setFlash('messageModule', MessageModule::t('Message has been deleted'));
 			}
-			$this->redirect($this->createUrl('/message/' . $folder));
+			$this->redirect($this->createUrl($folder));
 		}
 	}
 }
