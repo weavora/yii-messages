@@ -13,6 +13,10 @@ class ViewController extends Controller {
 		if ($viewedMessage->sender_id != $userId && $viewedMessage->receiver_id != $userId) {
 		    throw new CHttpException(403, MessageModule::t('You can not view this message'));
 		}
+		if (($viewedMessage->sender_id == $userId && $viewedMessage->deleted_by == Message::DELETED_BY_SENDER)
+		    || $viewedMessage->receiver_id == $userId && $viewedMessage->deleted_by == Message::DELETED_BY_RECEIVER) {
+		    throw new CHttpException(404, MessageModule::t('Message not found'));
+		}
 		$message = new Message();
 
 		$isIncomeMessage = $viewedMessage->receiver_id == $userId;
