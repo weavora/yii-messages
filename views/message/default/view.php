@@ -11,6 +11,14 @@
 
 <?php $this->renderPartial(Yii::app()->getModule('message')->viewPath . '/_navigation') ?>
 
+<?php $form = $this->beginWidget('CActiveForm', array(
+	'id'=>'message-delete-form',
+	'enableAjaxValidation'=>false,
+	'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
+)); ?>
+	<button class="btn danger"><?php echo MessageModule::t("Delete") ?></button>
+<?php $this->endWidget(); ?>
+
 <?php if ($isIncomeMessage): ?>
 	<h2 class="message-from">From: <?php echo $viewedMessage->getSenderName() ?></h2>
 <?php else: ?>

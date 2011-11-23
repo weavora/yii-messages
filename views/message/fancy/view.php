@@ -21,7 +21,7 @@
 			'enableAjaxValidation'=>false,
 			'action' => $this->createUrl('delete/', array('id' => $viewedMessage->id))
 		)); ?>
-		<button class="btn primary"><?php echo MessageModule::t("Delete Selected") ?></button>
+		<button class="btn danger"><?php echo MessageModule::t("Delete") ?></button>
 		<?php $this->endWidget(); ?>
 
 		<table class="bordered-table zebra-striped">

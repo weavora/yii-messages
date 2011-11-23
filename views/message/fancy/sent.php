@@ -45,7 +45,9 @@
 
 			<?php $this->endWidget(); ?>
 
-			<?php $this->widget('CLinkPager', array('pages' => $messagesAdapter->getPagination())) ?>
+			<div class="pagination">
+				<?php $this->widget('CLinkPager', array('header' => '', 'pages' => $messagesAdapter->getPagination(), 'htmlOptions' => array('class' => 'pager'))) ?>
+			</div>
 		<?php endif; ?>
 	</div>
 </div>
