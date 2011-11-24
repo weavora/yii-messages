@@ -1,25 +1,23 @@
 Messages
 ========
 
-The Messages module for the Yii framework allows you use private messages in
-your application.
+This Yii Framework module allows you to add quickly private messaging into your application.
 
-Features include:
-- basic private messages functionality
-- autosuggest
-- custom themes support
-- simple integration
+**Features included**:
+
+* basic private messaging functionality,
+* autosuggest,
+* custom themes support,
+* simple integration
 
 Requirements
 ------------
 
-This has been tested with 1.1.8, but should work with any version.
+This module was tested with 1.1.8 but should work with any version.
 
-В вашей модели пользователя нужно определить несколько методов необходимых для
-MessageModule (об этом ниже).
+MessageModule requires a couple of methods to be defined in you User model (see below):
 
-Если вы хотите использовать в модуле default layout, удостоверьтесь что он
-задан через double slash("//"). Usually default layout is defined in basic controller class.
+If you want to use modules' default layout make sure that it is defined via double slash ("//"). Usually default layout is defined in basic controller class.
 
     // class Controller
     public $layout='//layouts/column1';
@@ -27,88 +25,82 @@ MessageModule (об этом ниже).
 Configuration
 -------------
 
-Создайте необходимые таблицы, использую SQL из файла data/message.sql
+Create necessary tables using SQL file - data/message.sql
 
-Настройки секции modules для конфига:
+There are config settings of modules section below:
 
     return array(
-       'modules' => array(
-         'message' => array(
-            'userModel' => 'User',
-            'getNameMethod' => 'getFullName',
-            'getSuggestMethod' => 'getSuggest',
-         ),
-       ),
+        'modules' => array(
+            'message' => array(
+                'userModel' => 'User',
+                'getNameMethod' => 'getFullName',
+                'getSuggestMethod' => 'getSuggest',
+            ),
+        ),
     );
 
+In order to use module you should specify **User model** that is used in the application `MessageModule::userModel`.
 
-Для использования модуля необходимо указать модель пользователя используемую в
-приложении `MessageModule::userModel`.
+If necessary, specify relations for **Sender** and **Receiver** `MessageModule::senderRelation` and `MessageModule::receiverRelation`.
 
-Если необходимо, укажите relations для sender и receiver
-`MessageModule::senderRelation and MessageModule::receiverRelation`.
-
-    'receiverRelation' => array(
-        CActiveRecord::BELONGS_TO, 'MyUserModel',
+	'receiverRelation' => array(
+        CActiveRecord::BELONGS_TO, 
+        'MyUserModel',
         '',
         'on' => 'MyUserModel.my_custom_id = receiver_id'
-    )
+     )
 
-Если вы не используете встроенную в Yii assets functionality, то вам нужно
-будет подключить библиотеки jQuery and jQuery UI(with styles), их можно найти
-в папке модуля.
+If you do not use Yii assets build-in functionality you will need to connect jQuery and jQuery UI(with styles) libraries. You can find them in modules folder.
 
-Insert items into zii.widgets.CMenu array (protected/views/layouts/main.php)
+Insert items into `zii.widgets.CMenu` array (protected/views/layouts/main.php)
 
-	array(
-		'url' => Yii::app()->getModule('message')->inboxUrl,
-		'label' => 'Messages' .
-				   (Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) ?
-						' (' . Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) . ')' : ''),
-		'visible' => !Yii::app()->user->isGuest),
+    array(
+        'url' => Yii::app()->getModule('message')->inboxUrl,
+        'label' => 'Messages' .
+            (Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) ?
+                ' (' . Yii::app()->getModule('message')->getCountUnreadedMessages(Yii::app()->user->getId()) . ')' : ''),
+        'visible' => !Yii::app()->user->isGuest),
 
 Examples
 --------
 
     // config
     return array(
-       'modules' => array(
-         'message' => array(
+    'modules' => array(
+        'message' => array(
             'userModel' => 'User',
             'getNameMethod' => 'getFullName',
             'getSuggestMethod' => 'getSuggest',
-         ),
-       ),
+            ),
+        ),
     );
 
     // class User
-
     public function getFullName() {
         return $this->username;
     }
 
     public function getSuggest($q) {
-		$c = new CDbCriteria();
-		$c->addSearchCondition('username', $q, true, 'OR');
-		$c->addSearchCondition('email', $q, true, 'OR');
-		return $this->findAll($c);
-	}
+    	$c = new CDbCriteria();
+    	$c->addSearchCondition('username', $q, true, 'OR');
+    	$c->addSearchCondition('email', $q, true, 'OR');
+    	return $this->findAll($c);
+    }
 
 Custom Views
 ------------
 
-Если вас не устраивают стандартные views, вы легко можете заменить их на свои,
-указав путь к папке с ними через `MessageModule::viewPath`.
+If you are not satisfied with the standard views you can easily replace them with your own just linking path to their folder through `MessageModule::viewPath`.
 
     //config
     return array(
-       'modules' => array(
-         'message' => array(
-            ...
-            // for app/protected/views/messagesModuleCustom
-            'viewPath' => '//messagesModuleCustom',
-         ),
-       ),
+        'modules' => array(
+            'message' => array(
+                ...
+                // for app/protected/views/messagesModuleCustom
+                'viewPath' => '//messagesModuleCustom',
+            ),
+        ),
     );
 
     // app/protected/views/messagesModuleCustom directory listing
@@ -121,10 +113,8 @@ Custom Views
 Direct messages
 ---------------
 
-Возможно определять получателя сообшения при помоши ссылки (например,
-размешенной на странице его профайла). Для этого необходимо указать id
-получателя в конце url
+It is possible to determine each recipient by URL (for example, under user profile page). To do this, you should add his id at the end of URL.
 
-    http://example.com/message/compose/1
+`http://example.com/message/compose/1`
 
-В этом случае имя поучателя подставится в форму автоматически.
+In this case recipients' name will be automatically inserted in the form.
