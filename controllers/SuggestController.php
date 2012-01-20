@@ -4,14 +4,20 @@ class SuggestController extends Controller {
 
 	public function actionUser() {
 		$q = Yii::app()->request->getParam('name_startsWith');
-		$userModels = call_user_func(array(User::model(), Yii::app()->getModule('message')->getSuggestMethod), $q);
+		$userModels = (array) call_user_func(array(
+			CActiveRecord::model(Yii::app()->getModule('message')->userModel),
+			Yii::app()->getModule('message')->getSuggestMethod
+		), $q);
+
 		$users = array();
 		if ($userModels) {
-		    foreach ($userModels as $userModel) {
-			$users[] = array(
-				'id' => $userModel->getPrimaryKey(),
-				'name' => call_user_func(array($userModel, $this->getModule()->getNameMethod))
-			);
+			foreach ($userModels as $userModel) {
+				$users[] = array(
+					'id' => $userModel->getPrimaryKey(),
+					'name' => call_user_func(array(
+						$userModel, $this->getModule()->getNameMethod
+					))
+				);
 			}
 		}
 		$json = CJSON::encode(array('users' => $users));
